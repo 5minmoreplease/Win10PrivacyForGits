@@ -1,4 +1,7 @@
-@echo off
+@echo off &setlocal
+::Gets users profile id, used to turn off Wi-Fi Sense
+set cmd="wmic useraccount where name='%username%' get sid"
+for /f "skip=1" %%i IN ( ' %cmd% ' ) DO if not defined SID set "SID=%%i"
 echo ====================================================
 echo Windows 10 Privacy for Gits
 echo Licensed under the GNU GPL2 (enclosed with program)
@@ -15,8 +18,8 @@ echo Disabling Microsoft Keylogger/Sending info on how you write
 reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Input\TIPC /t REG_DWORD /v Enabled /d 0 /f
 echo Setting Telemetry to Basic
 reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection\ /t REG_DWORD /v AllowTelemetry /d 1 /f
-echo I have not figured out how to turn off Wi-Fi Sense, go to Wi-Fi settings/Manage Wi-Fi Settings to turn it off.
-
+echo Turning off Wi-Fi Sense
+reg add HKLM\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\features\%SID% /v FeatureStates /f /t REG_DWORD /d 828
 echo Done!
 pause
 exit
