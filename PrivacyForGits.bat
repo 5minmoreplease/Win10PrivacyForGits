@@ -8,10 +8,12 @@ echo Licensed under the GNU GPL2 (enclosed with program)
 echo This program must be run as admin!
 echo ====================================================
 echo Do you want to start the process? [y/n]
+::Accepts input, either starting the process or closing the program
 set /p start=
 if "%start%" == "y" goto privacystart
 if "%start% == "n" exit
 :privacystart
+::reg is the command for interacting with the registry, /t is the data type, /v is the name of the value, /d is the data to enter /f, forces an overwrite without asking the user.
 echo Turning off Advertising ID Sharing
 reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo /t REG_DWORD /v Enabled /d 0 /f
 echo Disabling Microsoft Keylogger/Sending info on how you write
@@ -19,6 +21,7 @@ reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Input\TIPC /t REG_DWORD /v Enabled 
 echo Setting Telemetry to Basic
 reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection\ /t REG_DWORD /v AllowTelemetry /d 1 /f
 echo Blocking Telemetry in hosts file
+:: >> is the syntax for adding data to the end of a file, while > would make an entirely new hosts file, deleting any other changes made by the user
 @echo 127.0.0.1 vortex.data.microsoft.com >> C:\Windows\System32\drivers\etc\hosts
 @echo 127.0.0.1 vortex-win.data.microsoft.com >> C:\Windows\System32\drivers\etc\hosts
 @echo 127.0.0.1 telecommand.telemetry.microsoft.com >> C:\Windows\System32\drivers\etc\hosts
