@@ -1,5 +1,5 @@
 # This sets the path to the hosts file
-$file = "C:\Windows\System32\drivers\etc\hosts"
+$file = "$env:systemroot\System32\drivers\etc\hosts"
 
 # Function accepts IP and hostname and adds it to hosts
 function add-hostfilecontent( [string]$ip, [string]$hostname) {
